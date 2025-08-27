@@ -19,6 +19,21 @@ model User {
   avatar    String?
   isActive  Boolean  @default(true)
   otpSecret String?
+  
+  // Onboarding fields
+  onboardingCompleted Boolean  @default(false)
+  onboardingStep      Int      @default(0)
+  onboardingData      Json     @default("{}")
+  
+  // Goal settings for each pillar
+  healthGoals         Json     @default("{}")
+  wealthGoals         Json     @default("{}")
+  spiritualityGoals   Json     @default("{}")
+  
+  // Daily checkup preferences
+  dailyCheckupEnabled Boolean  @default(true)
+  dailyCheckupTime    String?  @default("09:00")
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

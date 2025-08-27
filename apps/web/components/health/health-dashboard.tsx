@@ -27,6 +27,7 @@ import { ProgressRing } from '@/components/charts/progress-ring'
 import { MetricCard } from '@/components/charts/metric-card'
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton'
 import { useHealthMetrics } from '@/lib/hooks/api-hooks'
+// import { EmptyPillar } from '@/components/empty-states/empty-pillar' // Removed for now
 
 // Mock data for health tracking
 const generateHealthData = () => {
@@ -79,8 +80,11 @@ export function HealthDashboard() {
   // Fetch real health metrics from API
   const { data: healthMetrics, isLoading, error } = useHealthMetrics()
   
-  // Use real data if available, otherwise fallback to mock data
-  const healthData = healthMetrics || generateHealthData()
+  // Use real data if available, otherwise fallback to empty data
+  const healthData = healthMetrics
+
+  // TODO: Show empty state if user has no health data
+  // if (!isLoading && (!healthData || !healthData.hasData)) { return <EmptyState /> }
 
   if (isLoading) {
     return (

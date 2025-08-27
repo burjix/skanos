@@ -25,18 +25,18 @@ import { MetricCard } from '@/components/charts/metric-card'
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton'
 import { useDashboardData, useTodayEvents, useAuth, useAnalytics } from '@/lib/hooks/api-hooks'
 
-// Generate chart data from analytics or fallback to mock for demonstration
+// Generate chart data from analytics or return empty data
 const generateChartData = (analytics?: any) => {
-  if (analytics?.activityData) {
+  if (analytics?.activityData && analytics.hasData) {
     return analytics.activityData
   }
   
-  // Fallback mock data if no analytics available
+  // Return empty data structure when no real data exists
   const last7Days = Array.from({ length: 7 }, (_, i) => {
     const date = subDays(new Date(), 6 - i)
     return {
       name: format(date, 'EEE'),
-      value: Math.floor(Math.random() * 100) + 50,
+      value: 0,
       date: format(date, 'yyyy-MM-dd')
     }
   })
@@ -49,6 +49,7 @@ export function EnhancedDashboard() {
   const { data: dashboardData, isLoading: dashboardLoading, error: dashboardError } = useDashboardData()
   const { data: todayEvents, isLoading: eventsLoading } = useTodayEvents()
   const { data: analytics } = useAnalytics({ period: '7d' })
+  // const { needsOnboarding, isOnboarded } = useOnboarding() // Removed for now
 
   // Show loading state while fetching dashboard data
   if (dashboardLoading || eventsLoading) {
@@ -95,17 +96,23 @@ export function EnhancedDashboard() {
     )
   }
 
+  // Check if we have any real data
+  const hasAnyData = (dashboardData?.quickStats?.totalEvents || 0) > 0 || (analytics?.hasData)
+  
+  // TODO: Add empty state handling when no data exists
+  // if (!hasAnyData) { return <EmptyState /> }
+
   // Generate chart data
   const activityData = generateChartData(analytics)
-  const energyData = activityData.map((d: any) => ({ ...d, value: Math.floor(Math.random() * 10) + 1 }))
+  const energyData = activityData.map((d: any) => ({ ...d, value: 0 })) // No mock data for energy
 
-  // Calculate metrics from real data or use defaults
-  const focusTime = Math.floor(Math.random() * 480) + 120 // TODO: Get from real data
+  // Calculate metrics from real data only
+  const focusTime = 0 // Will be calculated from real time-tracking data
   const tasksCompleted = dashboardData?.quickStats?.totalEvents || 0
-  const streakDays = Math.floor(Math.random() * 30) + 1 // TODO: Calculate from real data
-  const healthScore = Math.floor(Math.random() * 30) + 70 // TODO: Get from health metrics
-  const wealthGrowth = (Math.random() * 20 - 10).toFixed(1) // TODO: Get from wealth metrics
-  const meditationMinutes = Math.floor(Math.random() * 60) + 10 // TODO: Get from spirituality metrics
+  const streakDays = 1 // Will be calculated from consistent daily activity
+  const healthScore = 0 // Will be calculated from health metrics
+  const wealthGrowth = '0.0' // Will be calculated from financial data
+  const meditationMinutes = 0 // Will be calculated from spirituality events
 
   return (
     <div className="p-8 space-y-8 max-w-7xl mx-auto">

@@ -8,8 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export function LoginForm() {
-  const [email, setEmail] = useState('skander@skanos.dev')
-  const [password, setPassword] = useState('SkanOS2024!')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [otpCode, setOtpCode] = useState('')
   const { login, isLoggingIn, loginError } = useAuth()
 

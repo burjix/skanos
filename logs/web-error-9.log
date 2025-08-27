@@ -7,3 +7,12 @@
 2025-08-27T13:18:40:  ⚠ Invalid next.config.js options detected: 
 2025-08-27T13:18:40:  ⚠     Unrecognized key(s) in object: 'swcMinify'
 2025-08-27T13:18:40:  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+2025-08-27T13:49:06:  ⚠ Invalid next.config.js options detected: 
+2025-08-27T13:49:06:  ⚠     Unrecognized key(s) in object: 'swcMinify'
+2025-08-27T13:49:06:  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+2025-08-27T14:03:13:  ⚠ Invalid next.config.js options detected: 
+2025-08-27T14:03:13:  ⚠     Unrecognized key(s) in object: 'swcMinify'
+2025-08-27T14:03:13:  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+2025-08-27T14:04:09:  ⚠ Invalid next.config.js options detected: 
+2025-08-27T14:04:09:  ⚠     Unrecognized key(s) in object: 'swcMinify'
+2025-08-27T14:04:09:  ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
