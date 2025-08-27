@@ -1,0 +1,17 @@
+{
+  "name": "@skanos/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "dev": "echo 'Shared package - no dev server needed'",
+    "build": "echo 'Shared package built'"
+  },
+  "dependencies": {
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}
