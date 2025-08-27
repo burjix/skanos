@@ -34,7 +34,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3010,
-        NEXT_PUBLIC_API_URL: 'https://s.g8nie.com/api'
+        NEXT_PUBLIC_API_URL: 'https://s.g8nie.com'
       },
       error_file: '/home/claude/projects/skanos/logs/web-error.log',
       out_file: '/home/claude/projects/skanos/logs/web-out.log',
