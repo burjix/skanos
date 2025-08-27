@@ -1,46 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { useAuth } from '@/lib/auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { PlusCircle, Zap } from 'lucide-react'
+import { useCreateQuickCapture } from '@/lib/hooks/api-hooks'
 
 export function QuickCapture() {
   const [content, setContent] = useState('')
-  const { token } = useAuth()
-  const queryClient = useQueryClient()
-
-  const captureMutation = useMutation({
-    mutationFn: async (content: string) => {
-      const response = await fetch('/api/dashboard/quick-capture', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content }),
-      })
-      
-      if (!response.ok) {
-        throw new Error('Failed to capture')
-      }
-      
-      return response.json()
-    },
-    onSuccess: () => {
-      setContent('')
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] })
-    },
-  })
+  const captureMutation = useCreateQuickCapture()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (content.trim()) {
-      captureMutation.mutate(content)
+      captureMutation.mutate(content, {
+        onSuccess: () => {
+          setContent('')
+        },
+      })
     }
   }
 
@@ -48,7 +27,11 @@ export function QuickCapture() {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault()
       if (content.trim()) {
-        captureMutation.mutate(content)
+        captureMutation.mutate(content, {
+          onSuccess: () => {
+            setContent('')
+          },
+        })
       }
     }
   }

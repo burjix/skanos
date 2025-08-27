@@ -7,6 +7,10 @@ import { EventsModule } from './events/events.module';
 import { EntitiesModule } from './entities/entities.module';
 import { MemoriesModule } from './memories/memories.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { HealthModule } from './health/health.module';
+import { WealthModule } from './wealth/wealth.module';
+import { SpiritualityModule } from './spirituality/spirituality.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
@@ -32,6 +36,10 @@ import { PrismaModule } from './prisma/prisma.module';
     EntitiesModule,
     MemoriesModule,
     DashboardModule,
+    HealthModule,
+    WealthModule,
+    SpiritualityModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}

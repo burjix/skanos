@@ -1,8 +1,10 @@
 'use client'
 
+import React from 'react'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { apiClient } from './api-client'
 import type { LoginRequest } from '@skanos/shared'
 
 interface User {
@@ -38,43 +40,20 @@ export function useAuth() {
   const { token, user, setAuth, logout: storeLogout } = useAuthStore()
   const queryClient = useQueryClient()
 
+  // Initialize API client token when auth store changes
+  React.useEffect(() => {
+    apiClient.setToken(token)
+  }, [token])
+
   const { isLoading } = useQuery({
     queryKey: ['auth', 'me'],
-    queryFn: async () => {
-      if (!token) throw new Error('No token')
-      
-      const response = await fetch('/api/auth/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch user')
-      }
-      
-      return response.json()
-    },
+    queryFn: () => apiClient.getCurrentUser(),
     enabled: !!token && !user,
+    retry: false,
   })
 
   const loginMutation = useMutation({
-    mutationFn: async (data: LoginRequest) => {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Login failed')
-      }
-      
-      return response.json()
-    },
+    mutationFn: (data: LoginRequest) => apiClient.login(data.email, data.password),
     onSuccess: (data) => {
       setAuth(data.access_token, data.user)
       queryClient.invalidateQueries({ queryKey: ['dashboard'] })
@@ -82,6 +61,7 @@ export function useAuth() {
   })
 
   const logout = () => {
+    apiClient.setToken(null)
     storeLogout()
     queryClient.clear()
   }
